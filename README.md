@@ -1,5 +1,8 @@
 # EpSqlGenCore
-Excel / Json generator  for SQL databases based on EpPlus library
+Excel / Json generator  for SQL databases based on EpPlus library - https://github.com/JanKallman/EPPlus 
+
+For Core version I using now Vahid fork https://github.com/VahidN/EPPlus.Core 
+
 
 Supported databases ( tested mainly with Oracle ) :  
 
