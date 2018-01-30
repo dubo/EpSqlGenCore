@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>Miroslav Dubovský</Authors>
+    <Company>Miroslav Dubovský</Company>
+    <Description>Excel / Json generator  for SQL databases based on EpPlus library</Description>
+    <Version>1.0.0</Version>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageTags>.NetCore, xlsx, json, SQL, EpPlus, Oracle</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dotNetCore.Data.OracleClient" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.0.0" />
+    <PackageReference Include="MySql.Data" Version="6.10.6" />
+    <PackageReference Include="Npgsql" Version="3.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EpSqlGen\EpSqlGen.csproj" />
+  </ItemGroup>
+
+</Project>

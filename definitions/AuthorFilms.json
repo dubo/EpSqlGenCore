@@ -1,0 +1,66 @@
+{
+  "fileName": "AuthorFilms",
+  "template": null,
+  "autofilter": true,
+  "timestamp": true,
+  "tabs": [
+    {
+      "query": "select  a.first_name, a.last_name , f.title, f.release_year, f.rating  
+ from actor a , film f , film_actor fa 
+ where a.last_name = :lastName   --'Davis' 
+   and a.actor_id = fa.actor_id
+   and fa.film_id =  f.film_id  
+ order by f.rating",
+      "name": "AuthorFilms",
+      "title": "Select 'List of films for authors with last name' || :lastName ",
+      "printHeader": false,
+      "fields": [
+        {
+          "colId": 0,
+          "title": "first_name",
+          "name": "first_name",
+          "type": "String",
+          "format": "auto",
+          "minsize": 14,
+          "order": 1
+        },
+        {
+          "colId": 1,
+          "title": "last_name",
+          "name": "last_name",
+          "type": "String",
+          "format": "auto",
+          "minsize": 14,
+          "order": 2
+        },
+        {
+          "colId": 2,
+          "title": "title",
+          "name": "title",
+          "type": "String",
+          "format": "auto",
+          "minsize": 10,
+          "order": 3
+        },
+        {
+          "colId": 3,
+          "title": "release_year",
+          "name": "release_year",
+          "type": "Int32",
+          "format": "auto",
+          "minsize": 16,
+          "order": 4
+        },
+        {
+          "colId": 4,
+          "title": "rating",
+          "name": "rating",
+          "type": "String",
+          "format": "auto",
+          "minsize": 6,
+          "order": 5
+        }
+      ]
+    }
+  ]
+}
