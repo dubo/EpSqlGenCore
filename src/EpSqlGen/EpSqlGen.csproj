@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.2</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <Authors>Miroslav Dubovský</Authors>
     <Company>Miroslav Dubovský</Company>
     <Product>EpSqlGen (standart 2.0) -  package</Product>
@@ -11,6 +11,11 @@
     <Version>1.0.0</Version>
     <PackageTags>.NetCore, xlsx, json, SQL, EpPlus</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0.en.html</PackageLicenseUrl>
+    <Copyright>Copyright 2018</Copyright>
+    <PackageProjectUrl>https://github.com/dubo/EpSqlGenCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dubo/EpSqlGenCore</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
