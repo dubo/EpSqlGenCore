@@ -29,6 +29,18 @@ Supported databases ( tested mainly with Oracle ) :
 **Help** 
 
       dotnet EpSqlGenCore.dll  -h
+      
+**Directory settings for simple usage** 
+
+Don't forget set definitions/outputs directory in app config to your path. But you can set full path to config or output file in cmd line too
+
+    <configuration>
+      <appSettings>
+        <add key="DefinitionsDir" value="c:\work\EpSqlGenCore\definitions"/>
+        <add key="OutputsDir" value="c:\work\EpSqlGenCore\outputs"/>
+       ...
+      </appSettings>
+
    
 ## Usage -advanced
 **sql definition file for simple one tab XLSX output**
@@ -47,7 +59,7 @@ Supported databases ( tested mainly with Oracle ) :
 
     dotnet EpSqlGenCore.dll Test.json -oMyOutputfile -do -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Contract:integer :505115
 
-**Sample-sql def to JSON**  XLSX 
+**Sample-sql def to JSON**
 
     dotnet EpSqlGenCore.dll MySqlQuerry.sql -oMyOutputfile -j -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Contract:integer:505115
 
