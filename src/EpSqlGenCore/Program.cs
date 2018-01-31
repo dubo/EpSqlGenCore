@@ -7,10 +7,7 @@ namespace EpSqlGen
     class Program
     {
         static void Main(string[] args)
-        {
-            if (EpSqlGenerator.OnlyHelp(args))                
-                return; // no action, only help ifo about usage 
-
+        {             
             var myReport = new EpSqlGenerator(args);
             // Logging only after initialization
             SimpleLog.WriteLog("");

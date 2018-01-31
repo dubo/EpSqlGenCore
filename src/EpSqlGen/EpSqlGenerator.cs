@@ -31,42 +31,36 @@ namespace EpSqlGen
         public string outFormat = ".xlsx";
         public string repConnectString;
 
-        public static bool OnlyHelp(string[] args)
-        {
-            if (args.Count() == 0 || args[0] == "/h" || args[0] == "-h")
-            {
-                var appName = System.AppDomain.CurrentDomain.FriendlyName;
-                Console.WriteLine(".Net (.Net core) xlsx/json generator for Sql (now only Oracle tested)");
-                Console.WriteLine("");
-                Console.WriteLine("Switches:");
-                Console.WriteLine("-h or /h             // Display help info");
-                Console.WriteLine("-v                   // Version ");
-                Console.WriteLine("-j                   // Generate json output file, (xlsx file is default)");
-                Console.WriteLine("-jc                  // Generate json output only to console, usefull for integration with other products ");
-                Console.WriteLine("-ec                  // Enable console logging output - usefull for debuggnig");
-                Console.WriteLine("-eo                  // Enable  out file generation -  created definition  in json format ");
-                Console.WriteLine("-dt                  // Disable timestamp mark in generated xlsx file");
-                Console.WriteLine("-c:MyConnectionStrig // Connect string name as argument");
-                Console.WriteLine("-a:MyArgumentName:MyArgumentType:MyargumentValue     // Argumet for SQL    ");
-                Console.WriteLine("");
-                Console.WriteLine("Usage(sql definition file for simple one tab output):");
-                Console.WriteLine("dotnet " + appName + ".dll MySqlQuery.sql -oMyOutputFileName -a:MyArgument1:Argument1Type:Argumet1value -a:MyArgument2:Argument2Type:Argumet2value");
-                Console.WriteLine("");
-                Console.WriteLine("Usage(json definition file for complex output):");
-                Console.WriteLine("dotnet " + appName + ".dll MyJsonDefinition.json -oMyOutputFileName -aMyArgument1:Argument1Type:Argumet1value -aMyArgument2:Argument2Type:Argumet2value");
-                Console.WriteLine("");
-                Console.WriteLine("Supported arguments types:  string || char || varchar2 || varchar || date || integer || decimal || number || array ");
-                Console.WriteLine("");
-                Console.WriteLine("");
-                Console.WriteLine("Sample-sql src to  XLSX: dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile  -dt -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
-                Console.WriteLine("");
-                Console.WriteLine("Sample-json src to XLSX: dotnet " + appName + ".dll Test.json -oMyOutputfile -do -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
-                Console.WriteLine("");
-                Console.WriteLine("Sample-sql to json: dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile -j -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Contract:integer:505115");
-                return true;
-            }
-            else
-                return false;
+        public static void WriteHelp()
+        {            
+            var appName = System.AppDomain.CurrentDomain.FriendlyName;
+            Console.WriteLine(".Net (.Net core) xlsx/json generator for Sql (now only Oracle tested)");
+            Console.WriteLine("");
+            Console.WriteLine("Switches:");
+            Console.WriteLine("-h or /h             // Display help info");
+            Console.WriteLine("-v                   // Version ");
+            Console.WriteLine("-j                   // Generate json output file, (xlsx file is default)");
+            Console.WriteLine("-jc                  // Generate json output only to console, usefull for integration with other products ");
+            Console.WriteLine("-ec                  // Enable console logging output - usefull for debuggnig");
+            Console.WriteLine("-eo                  // Enable  out file generation -  created definition  in json format ");
+            Console.WriteLine("-dt                  // Disable timestamp mark in generated xlsx file");
+            Console.WriteLine("-c:MyConnectionStrig // Connect string name as argument");
+            Console.WriteLine("-a:MyArgumentName:MyArgumentType:MyargumentValue     // Argumet for SQL    ");
+            Console.WriteLine("");
+            Console.WriteLine("Usage(sql definition file for simple one tab output):");
+            Console.WriteLine("dotnet " + appName + ".dll MySqlQuery.sql -oMyOutputFileName -a:MyArgument1:Argument1Type:Argumet1value -a:MyArgument2:Argument2Type:Argumet2value");
+            Console.WriteLine("");
+            Console.WriteLine("Usage(json definition file for complex output):");
+            Console.WriteLine("dotnet " + appName + ".dll MyJsonDefinition.json -oMyOutputFileName -aMyArgument1:Argument1Type:Argumet1value -aMyArgument2:Argument2Type:Argumet2value");
+            Console.WriteLine("");
+            Console.WriteLine("Supported arguments types:  string || char || varchar2 || varchar || date || integer || decimal || number || array ");
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Sample-sql src to  XLSX: dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile  -dt -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
+            Console.WriteLine("");
+            Console.WriteLine("Sample-json src to XLSX: dotnet " + appName + ".dll Test.json -oMyOutputfile -do -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
+            Console.WriteLine("");
+            Console.WriteLine("Sample-sql to json: dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile -j -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Contract:integer:505115");           
         }
 
         public EpSqlGenerator(string[] inputArgs)
@@ -100,12 +94,30 @@ namespace EpSqlGen
                     }
                     else if (arg[1] == 'd' && arg.Length == 3 && arg[2] == 't')
                         enabledTimestamp = false;
+                    else if (arg[1] == 'h')
+                    {
+                        WriteHelp();
+                        System.Environment.Exit(0);
+                    }
                     else if (arg[1] == 'v')
-                        Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version);
-                      /*  if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-                            Console.WriteLine(System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4));
+                    {
+                        Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version );
+                       
+                        string osplatform;
+                        if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows)) 
+                            osplatform = "Windows";
+                        else if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX)) 
+                            osplatform = "OSX";
+                        else if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux)) 
+                            osplatform = "Linux";
                         else
-                            Console.WriteLine("Debug version:" + System.Reflection.Assembly.GetExecutingAssembly().GetName().ToString()); */
+                            osplatform = "Unknown";
+                        Console.WriteLine("Enviroment OS: " + Environment.OSVersion.Platform + ", platform ID " + (int)Environment.OSVersion.Platform );
+                        Console.WriteLine("OsPlatform   : " + osplatform);
+                        Console.WriteLine("Architecture : " + System.Runtime.InteropServices.RuntimeInformation.OSArchitecture);
+                        Console.WriteLine("OsDescription: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription);
+                        System.Environment.Exit(0);
+                    }                       
                     else if (arg[1] == 'a')
                     {
                         string[] argdetails = (arg[2] == ':') ? arg.Substring(3).Split(':') : arg.Substring(2).Split(':');
@@ -135,12 +147,6 @@ namespace EpSqlGen
                                 arguments.Add(argdetails[0], vals.ToArray());
                             }
                         }
-                        else if (arg[1] == 'h')
-                        {
-                            Console.WriteLine("Usage (sql  source) :" + System.AppDomain.CurrentDomain.FriendlyName + " MySqlQuerry.sql -oMyOutputfile  -aStavy:array:'P9','K9','O9' -aProdukt:string:UO -aOd:date:4.2.2015 -aZmluvaId:number:505115 ");
-                            Console.WriteLine("Usage (json source):" + System.AppDomain.CurrentDomain.FriendlyName + " MyJsonCfg.json -oMyOutputfile  -aStavy:array:'P9','K9','O9' -aProdukt:string:UO -aOd:date:4.2.2015 -aZmluvaId:number:505115 ");
-                        }
-
                     }
                 }
                 else

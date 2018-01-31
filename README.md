@@ -4,13 +4,14 @@ Excel / Json generator  for SQL databases based on EpPlus library - https://gith
 For Core version I using now Vahid fork https://github.com/VahidN/EPPlus.Core 
 
 
-Supported databases ( tested mainly with Oracle ) :  
+Supported databases ( tested mainly with Oracle and PgSql ) :  
 
- - Oracle 
- - MSSQL 
- - MySQL 
- - PgSql
- - SqLite 
+ - Oracle    providerName="System.Data.OracleClient"     https://github.com/ericmend/oracleClientCore-2.0
+			 providerName="Mono.Data.OracleClientCore"
+ - MSSQL	 providerName="System.Data.SqlClient"
+ - MySQL	 providerName="MySql.Data"
+ - PgSql	 providerName="Npgsql"
+ - SqLite	 providerName="System.Data.SQLite"
  
 ## Usage - simple
 **XLSX output** 
