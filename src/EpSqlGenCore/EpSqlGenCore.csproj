@@ -15,11 +15,19 @@
     <PackageProjectUrl>https://github.com/dubo/EpSqlGenCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dubo/EpSqlGenCore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <myRuntimeIdentifiers>;win-x86;win-x64;win10-x64;win7-x86;win7-x64;osx-x64;linux-x64;centos-x64;ubuntu-x64;centos.7-x64</myRuntimeIdentifiers>
+    <myRuntimeIdentifier>linux-x64</myRuntimeIdentifier>
+    <StartupObject></StartupObject>
+    <ApplicationIcon />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\netcoreapp2.0\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="dotNetCore.Data.OracleClient" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.0.0" />
     <PackageReference Include="MySql.Data" Version="6.10.6" />
     <PackageReference Include="Npgsql" Version="3.2.6" />
   </ItemGroup>

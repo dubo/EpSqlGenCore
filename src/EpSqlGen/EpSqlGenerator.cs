@@ -37,7 +37,7 @@ namespace EpSqlGen
             Console.WriteLine(".Net (.Net core) xlsx/json generator for Sql (now only Oracle tested)");
             Console.WriteLine("");
             Console.WriteLine("Switches:");
-            Console.WriteLine("-h or /h             // Display help info");
+            Console.WriteLine("-h                   // Display help info");
             Console.WriteLine("-v                   // Version ");
             Console.WriteLine("-j                   // Generate json output file, (xlsx file is default)");
             Console.WriteLine("-jc                  // Generate json output only to console, usefull for integration with other products ");
@@ -56,11 +56,17 @@ namespace EpSqlGen
             Console.WriteLine("Supported arguments types:  string || char || varchar2 || varchar || date || integer || decimal || number || array ");
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("Sample-sql src to  XLSX: dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile  -dt -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
+            Console.WriteLine("Sample-sql src to  XLSX (portable/Win exe sample): ");
+            Console.WriteLine("dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile  -dt -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
+            Console.WriteLine( appName + ".exe MySqlQuerry.sql -oMyOutputfile  -dt -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
             Console.WriteLine("");
-            Console.WriteLine("Sample-json src to XLSX: dotnet " + appName + ".dll Test.json -oMyOutputfile -do -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
+            Console.WriteLine("Sample-json src to XLSX (portable/Win exe sample):") ;
+            Console.WriteLine("dotnet " + appName + ".dll Test.json -oMyOutputfile -do -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
+            Console.WriteLine( appName + ".exe Test.json -oMyOutputfile -do -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Zmluva:number:505115 ");
             Console.WriteLine("");
-            Console.WriteLine("Sample-sql to json: dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile -j -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Contract:integer:505115");           
+            Console.WriteLine("Sample-sql to json  (portable/Win exe sample):");
+            Console.WriteLine("dotnet " + appName + ".dll MySqlQuerry.sql -oMyOutputfile -j -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Contract:integer:505115");
+            Console.WriteLine( appName + ".exe MySqlQuerry.sql -oMyOutputfile -j -a:Stavy:array:'P9','K9','O9' -a:Ids:array:31,32,3 -a:Produkt:string:UO -a:Od:date:4.2.2015 -a:Contract:integer:505115");
         }
 
         public EpSqlGenerator(string[] inputArgs)
@@ -101,8 +107,7 @@ namespace EpSqlGen
                     }
                     else if (arg[1] == 'v')
                     {
-                        Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version );
-                       
+                        Console.WriteLine(System.AppDomain.CurrentDomain.FriendlyName  + " version: " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version )  ;
                         string osplatform;
                         if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows)) 
                             osplatform = "Windows";
@@ -554,7 +559,8 @@ namespace EpSqlGen
                     // Main Select
                     // https://github.com/ericmend/oracleClientCore-2.0/blob/master/test/dotNetCore.Data.OracleClient.test/OracleClientCore.cs
                     System.Data.IDataReader reader = conn.ExecuteReader(tab.query, QuerryArguments(tab.query));
-                    List<TableFields> rowConfig = getDeclaration(reader, tab.fields);
+          
+                    List <TableFields> rowConfig = getDeclaration(reader, tab.fields);
                     outDef.tabs.Add(new Tab { name = tab.name, title = tab.title, query = tab.query, fields = rowConfig });
 
                     int r = 0;

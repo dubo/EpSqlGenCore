@@ -1,5 +1,5 @@
 # EpSqlGenCore
-Excel / Json generator  for SQL databases based on EpPlus library - https://github.com/JanKallman/EPPlus 
+Simple Excel / Json generator  for SQL databases, based on EpPlus library - https://github.com/JanKallman/EPPlus 
 
 For Core version I using now Vahid fork https://github.com/VahidN/EPPlus.Core 
 
@@ -11,28 +11,30 @@ Supported databases ( tested mainly with Oracle and PgSql ) :
  - MSSQL	 providerName="System.Data.SqlClient"
  - MySQL	 providerName="MySql.Data"
  - PgSql	 providerName="Npgsql"
- - SqLite	 providerName="System.Data.SQLite"
  
 ## Usage - simple
 **XLSX output** 
   
-
-     dotnet EpSqlGenCore.dll AuthorFilms.sql
+	 // compiled to portable format
+     dotnet EpSqlGenCore.dll AuthorFilms.sql	
+	 // compiled to native format ( e.g. exe in Windows)
+	 EpSqlGenCore.exe  AuthorFilms.sql			
 
 **JSON output** 
   
-
      dotnet EpSqlGenCore.dll AuthorFilms.sql -j
+	 EpSqlGenCore.exe AuthorFilms.sql -j
 
    
 **JSON output to console** 
  
-
      dotnet EpSqlGenCore.dll AuthorFilms.sql -jc
+	 EpSqlGenCore.exe AuthorFilms.sql -j
 
 **Help** 
 
-      dotnet EpSqlGenCore.dll  -h
+      dotnet EpSqlGenCore.dll -h
+	  EpSqlGenCore.exe -h
       
 **Directory settings for simple usage** 
 
@@ -47,9 +49,10 @@ Don't forget set definitions/outputs directory in app config to your path. But y
 
    
 ## Usage -advanced
-**sql definition file for simple one tab XLSX output**
+**sql definition file for simple one tab XLSX output (portable/Win exe sample)**
 
     dotnet EpSqlGenCore.dll MySqlQuery.sql -oMyOutputFileName -a:MyArgument1:Argument1Type:Argumet1value -a:MyArgument2:Argument2Type:Argumet2value
+	EpSqlGenCore.exe MySqlQuery.sql -oMyOutputFileName -a:MyArgument1:Argument1Type:Argumet1value -a:MyArgument2:Argument2Type:Argumet2value
 
  **json definition file for complex XLSX output with more tabs**
 

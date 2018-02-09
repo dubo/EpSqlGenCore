@@ -1,0 +1,5 @@
+AllTables.json -aNumRows:Integer:100 -dc -do
+DvdCategory.sql -c:ReportConnStringNPG
+AuthorFilms.json -c:ReportConnStringNPG -a:lastName:String:Davis
+// SQLITE actually  not supported
+Genres.sql  -c:ReportConnStringSqLite
