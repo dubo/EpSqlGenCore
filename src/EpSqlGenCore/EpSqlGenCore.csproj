@@ -11,7 +11,7 @@
     <PackageTags>.NetCore, xlsx, json, SQL, EpPlus, Oracle</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0.en.html</PackageLicenseUrl>
-    <Copyright>Copyright 2017</Copyright>
+    <Copyright>Copyright ©  2017 - Miroslav Dubovský</Copyright>
     <PackageProjectUrl>https://github.com/dubo/EpSqlGenCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dubo/EpSqlGenCore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

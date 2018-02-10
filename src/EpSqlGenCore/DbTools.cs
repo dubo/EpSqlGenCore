@@ -2,6 +2,7 @@
 using EpSqlGen;
 using System.Data.Common;
 using System.Data.OracleClient;
+//using System.Data.SQLite;
 //using SQLitePCLRaw.bundle_e_sqlite3
 //using Microsoft.Data.Sqlite.Core  - this time same required methods is missing
 
@@ -34,12 +35,12 @@ namespace EpSqlGenCore
                         factory = Npgsql.NpgsqlFactory.Instance;
                     else if (providerName == "System.Data.SqlClient")
                         factory = System.Data.SqlClient.SqlClientFactory.Instance;
-                    /*    Microsoft.Data.Sqlite  disabled, becose in .Net Core method GetSchemaTable() not implemented
-                     *   else if (providerName == "Microsoft.Data.Sqlite")
+                    //    Microsoft.Data.Sqlite  disabled, becose in .Net Core method GetSchemaTable() not implemented
+                    /* else if (providerName == "Microsoft.Data.Sqlite")
                      {
-                         factory = Microsoft.Data.Sqlite.SqliteFactory.Instance;
+                         factory = System.Data.Sqlite.Core.SqliteFactory.Instance;
                          SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
-                     }     */
+                     }    */  
                     else if (providerName == "MySql.Data")
                         factory = MySql.Data.MySqlClient.MySqlClientFactory.Instance;
                     else
