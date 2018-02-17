@@ -471,6 +471,7 @@ namespace EpSqlGen
         public void GenerateJson(System.Data.Common.DbConnection conn)
         {
             var output = new Dictionary<String, Object>();
+            SetDbParams(conn);
             foreach (var tab in def.tabs)
             {
                 System.Data.IDataReader reader = conn.ExecuteReader(tab.query, QuerryArguments(tab.query));
