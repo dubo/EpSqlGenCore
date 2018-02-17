@@ -741,6 +741,22 @@ namespace EpSqlGen
                 }
 
                 package.Workbook.Calculate();
+
+                // Set document properties
+                package.Workbook.Properties.Comments = "Created with EpSqlGen Copyright © 2018 Miroslav Dubovský";
+                package.Workbook.Properties.Created = DateTime.Now;
+                package.Workbook.Properties.Title = outFileName;
+                var pomProp = System.Configuration.ConfigurationManager.AppSettings.Get("Author");
+                if (pomProp != null)
+                    package.Workbook.Properties.Author = pomProp;
+                pomProp = System.Configuration.ConfigurationManager.AppSettings.Get("Company");
+                if (pomProp != null)
+                    package.Workbook.Properties.Company = pomProp;
+                if (def.version != null)
+                    package.Workbook.Properties.Subject = "Template " + defFileName + ", version:" + def.version;
+                else
+                    package.Workbook.Properties.Subject = "Template " + defFileName;
+
                 package.Save();
             }
             if (!enabledConsoleLog)

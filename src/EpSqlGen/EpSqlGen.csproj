@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
     <Authors>Miroslav Dubovský</Authors>
     <Company>Miroslav Dubovský</Company>
     <Product>EpSqlGen (standart 2.0) -  package</Product>
     <Description>Library for  generating  Excel / Json  from SQL databases,  based on EpPlus library</Description>
-    <Version>1.0.0</Version>
+    <Version>1.0.0.1</Version>
     <PackageTags>.NetCore, xlsx, json, SQL, EpPlus</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0.en.html</PackageLicenseUrl>

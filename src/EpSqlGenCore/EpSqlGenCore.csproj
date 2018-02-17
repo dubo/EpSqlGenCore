@@ -6,7 +6,7 @@
     <Authors>Miroslav Dubovský</Authors>
     <Company>Miroslav Dubovský</Company>
     <Description>Excel / Json generator  for SQL databases based on EpPlus library</Description>
-    <Version>1.0.0</Version>
+    <Version>1.0.0.1</Version>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <PackageTags>.NetCore, xlsx, json, SQL, EpPlus, Oracle</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -17,7 +17,7 @@
     <RepositoryType>git</RepositoryType>
     <myRuntimeIdentifiers>;win-x86;win-x64;win10-x64;win7-x86;win7-x64;osx-x64;linux-x64;centos-x64;ubuntu-x64;centos.7-x64</myRuntimeIdentifiers>
     <myRuntimeIdentifier>linux-x64</myRuntimeIdentifier>
-    <StartupObject></StartupObject>
+    <StartupObject>EpSqlGen.Program</StartupObject>
     <ApplicationIcon />
   </PropertyGroup>
 

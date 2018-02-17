@@ -48,6 +48,7 @@ namespace EpSqlGen
         public string template { get; set; }
         public Boolean autofilter { get; set; }
         public Boolean timestamp { get; set; }
+        public string version { get; set; }
         public List<Tab> tabs { get; set; }
     }
 
