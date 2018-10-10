@@ -4,23 +4,23 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyVersion>1.0.0.1</AssemblyVersion>
     <FileVersion>1.0.0.1</FileVersion>
-    <Authors>Miroslav Dubovský</Authors>
-    <Company>Miroslav Dubovský</Company>
+    <Authors>Miroslav Dubovsky</Authors>
+    <Company>Miroslav Dubovsky</Company>
     <Product>EpSqlGen (standart 2.0) -  package</Product>
     <Description>Library for  generating  Excel / Json  from SQL databases,  based on EpPlus library</Description>
     <Version>1.0.0.1</Version>
     <PackageTags>.NetCore, xlsx, json, SQL, EpPlus</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0.en.html</PackageLicenseUrl>
-    <Copyright>Copyright 2018</Copyright>
+    <Copyright>Copyright ©  2018 - Miroslav Dubovsky</Copyright>
     <PackageProjectUrl>https://github.com/dubo/EpSqlGenCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dubo/EpSqlGenCore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.4" />
-    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="EPPlus" Version="4.5.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
   </ItemGroup>

@@ -39,6 +39,8 @@ namespace EpSqlGen
             Console.WriteLine("Switches:");
             Console.WriteLine("-h                   // Display help info");
             Console.WriteLine("-v                   // Version ");
+            Console.WriteLine("-oMyOutfile.xls      // Outfile name (json or xlsx), with or without Path ");
+            Console.WriteLine("-o:MyOutfile.xls     // Outfile name (json or xlsx), with or without Path ");
             Console.WriteLine("-j                   // Generate json output file, (xlsx file is default)");
             Console.WriteLine("-jc                  // Generate json output only to console, usefull for integration with other products ");
             Console.WriteLine("-ec                  // Enable console logging output - usefull for debuggnig");
@@ -78,7 +80,7 @@ namespace EpSqlGen
                 if (arg[0] == '-')
                 {
                     if (arg[1] == 'o')
-                        outFileName = arg.Substring(2).Trim();
+                        outFileName = (arg[2] == ':') ? arg.Substring(3).Trim() : arg.Substring(2).Trim();
                     else if (arg[1] == 'c')
                         repConnectString = (arg[2] == ':') ? arg.Substring(3).Trim() : arg.Substring(2).Trim();
                     else if (arg[1] == 'j')
@@ -128,7 +130,7 @@ namespace EpSqlGen
                         string[] argdetails = (arg[2] == ':') ? arg.Substring(3).Split(':') : arg.Substring(2).Split(':');
                         if (argdetails[1].ToLower() == "string" || argdetails[1].ToLower().Contains("char"))
                             arguments.Add(argdetails[0], argdetails[2]);
-                        else if (argdetails[1].ToLower().Contains("date"))
+                        else if (argdetails[1].ToLower().Contains("date") || argdetails[1].ToLower().Contains("datetime"))
                             arguments.Add(argdetails[0], DateTime.Parse(argdetails[2]));
                         else if (argdetails[1].ToLower() == "integer" || argdetails[1].ToLower() == "int")
                             arguments.Add(argdetails[0], int.Parse(argdetails[2]));
@@ -381,7 +383,7 @@ namespace EpSqlGen
 
         */
 
-        private static string getVariableType(String fullName, String decimalSize)
+        private static string GetVariableType(String fullName, String decimalSize)
         {
             String origType;
             if (fullName == null)
@@ -394,50 +396,74 @@ namespace EpSqlGen
             else
                 origType = fullName;
 
-            if (origType == "Decimal")
+            if (origType.ToUpper().Substring(0, 3) == "INT")
+                return "Integer";
+            else if (origType == "Decimal" )
                 return decimalSize == "0" ? "Integer" : origType;
             return origType;
         }
 
-        private static List<TableFields> getDeclaration(System.Data.IDataReader reader, List<TableFields> fields)
+        private static List<TableFields> GetDeclaration(System.Data.IDataReader reader, List<TableFields> fields)
         {
             var table = reader.GetSchemaTable();
             var actualFields = new List<TableFields> { };
             var orderedFields = new List<TableFields> { };
             TableFields item;
-            String dateFormat;
+            String dateFormat = System.Configuration.ConfigurationManager.AppSettings.Get("DateFormat"); 
+            String dateTimeFormat = System.Configuration.ConfigurationManager.AppSettings.Get("DateTimeFormat");
 
-            switch (System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)
+            string GetFormat(string fieldType, string fieldName)
             {
-                case "d.M.yyyy":
-                case "d. M. yyyy":
-                    dateFormat = "d.m.yyyy";
-                    break;
-                default:
-                    dateFormat = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                    break;
-            }
+                if (fieldType.ToLower() == "date")
+                    return dateFormat ;
+                else if (fieldType.ToLower() == "datetime"  ) { 
+                    // DateTime fields  format
+                    string[] arrayTime = { "_at", "_to", "_on", "_do" };
+                    if ( arrayTime.Contains( fieldName.ToLower().Substring(fieldName.Length - 3)) )                     
+                        return dateTimeFormat;                  
+                    return dateFormat;
+                }
+                else
+                    return "auto";
+            };
 
+            // 
+            if (dateFormat == null)
+                dateFormat = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+            if (dateTimeFormat == null)
+                dateTimeFormat = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern;
+            
             for (int i = 0; i < reader.FieldCount; i++)
             {
-                System.Data.DataRow row = table.Rows[i];
-                actualFields.Add(new TableFields { colId = i, name = row["ColumnName"].ToString(), type = getVariableType(row["DataType"].ToString(), row["NumericScale"].ToString()) });
-
+               // System.Data.DataRow row = table.Rows[i];
+                var row = table.Rows[i];
+                actualFields.Add(new TableFields { colId = i, name = row["ColumnName"].ToString(), type = GetVariableType(row["DataType"].ToString(), row["NumericScale"].ToString()) });
+                 
                 // ak by som nemal ziadnu definiciu predtym
                 item = (fields == null ? null : fields.FirstOrDefault(x => x.name.ToUpper() == row["ColumnName"].ToString().ToUpper() ) );
+                var colSize = row["ColumnSize"].ToString() == "" ? "0" : row["ColumnSize"].ToString();
+
                 if (item == null)
                 {
                     actualFields[i].title = actualFields[i].name;
-                    actualFields[i].minsize = Math.Max(Math.Min(10, int.Parse(row["ColumnSize"].ToString())), actualFields[i].name.Length);
+                    actualFields[i].minsize = Math.Max(Math.Min(10, int.Parse(colSize)), actualFields[i].name.Length);
                     actualFields[i].order = 100 + i;
-                    actualFields[i].format = actualFields[i].type == "DateTime" ? dateFormat : "auto";
+                    actualFields[i].format = GetFormat(actualFields[i].type, actualFields[i].name );
                 }
                 else
                 {
-                    actualFields[i].title = (item.title == null ? actualFields[i].name : item.title).Trim();
-                    actualFields[i].format = item.format == null ? (actualFields[i].type == "DateTime" ? dateFormat : "auto") : item.format;
-                    actualFields[i].minsize = item.minsize == 0 ? Math.Max(Math.Min(10, int.Parse(row["ColumnSize"].ToString())), actualFields[i].name.Length) : item.minsize;
+                    //use Date / Datetime from config
+                    if (item.type.Substring(0, 4).ToLower() == "date" && actualFields[i].type == "DateTime")
+                        actualFields[i].type = item.type;
+
+                    actualFields[i].title = (item.title == null ? actualFields[i].name : item.title).Trim();                    
+                    actualFields[i].minsize = item.minsize == 0 ? Math.Max(Math.Min(10, int.Parse(colSize)), actualFields[i].name.Length) : item.minsize;
                     actualFields[i].order = item.order;
+                    actualFields[i].format = item.format == null ? (actualFields[i].type == "DateTime" ? dateFormat : "auto") : item.format;
+                    if (item.format != null)
+                        actualFields[i].format = item.format;
+                    else
+                        actualFields[i].format = GetFormat(actualFields[i].name, actualFields[i].type);                   
                 }
             }
 
@@ -476,7 +502,7 @@ namespace EpSqlGen
             {
                 System.Data.IDataReader reader = conn.ExecuteReader(tab.query, QuerryArguments(tab.query));
                 var results = new List<Dictionary<string, object>>();
-                List<TableFields> rowConfig = getDeclaration(reader, tab.fields);
+                List<TableFields> rowConfig = GetDeclaration(reader, tab.fields);
                 outDef.tabs.Add(new Tab { name = tab.name, title = tab.title, query = tab.query, fields = rowConfig });
                 while (reader.Read())
                     results.Add(SerializeRow(rowConfig, reader));
@@ -561,7 +587,7 @@ namespace EpSqlGen
                     // https://github.com/ericmend/oracleClientCore-2.0/blob/master/test/dotNetCore.Data.OracleClient.test/OracleClientCore.cs
                     System.Data.IDataReader reader = conn.ExecuteReader(tab.query, QuerryArguments(tab.query));
           
-                    List <TableFields> rowConfig = getDeclaration(reader, tab.fields);
+                    List <TableFields> rowConfig = GetDeclaration(reader, tab.fields);
                     outDef.tabs.Add(new Tab { name = tab.name, title = tab.title, query = tab.query, fields = rowConfig });
 
                     int r = 0;
@@ -675,6 +701,9 @@ namespace EpSqlGen
                                     case "DateTime":
                                         ws.SetValue(riadok, rowConfig[i].order + stlpec - 1, reader.GetDateTime(colId));
                                         break;
+                                    case "Date":
+                                        ws.SetValue(riadok, rowConfig[i].order + stlpec - 1, reader.GetDateTime(colId));                                      
+                                        break;
                                     case "Decimal":
                                         ws.SetValue(riadok, rowConfig[i].order + stlpec - 1, reader.GetDecimal(colId));
                                         break;
@@ -744,7 +773,7 @@ namespace EpSqlGen
                 package.Workbook.Calculate();
 
                 // Set document properties
-                package.Workbook.Properties.Comments = "Created with EpSqlGen Copyright © 2018 Miroslav Dubovský";
+                package.Workbook.Properties.Comments = "Created with EpSqlGen Copyright © 2018 Miroslav Dubovsky";
                 package.Workbook.Properties.Created = DateTime.Now;
                 package.Workbook.Properties.Title = outFileName;
                 var pomProp = System.Configuration.ConfigurationManager.AppSettings.Get("Author");

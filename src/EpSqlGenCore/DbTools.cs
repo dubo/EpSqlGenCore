@@ -31,16 +31,18 @@ namespace EpSqlGenCore
                 {
                     if (providerName == "Mono.Data.OracleClientCore" || providerName == "System.Data.OracleClient")
                         factory = OracleClientFactory.Instance;
+                    else if (providerName == "Oracle.ManagedDataAccess.Client")
+                        factory = Oracle.ManagedDataAccess.Client.OracleClientFactory.Instance ;
                     else if (providerName == "Npgsql")
                         factory = Npgsql.NpgsqlFactory.Instance;
                     else if (providerName == "System.Data.SqlClient")
                         factory = System.Data.SqlClient.SqlClientFactory.Instance;
                     //    Microsoft.Data.Sqlite  disabled, becose in .Net Core method GetSchemaTable() not implemented
-                    /* else if (providerName == "Microsoft.Data.Sqlite")
+                     else if (providerName == "Microsoft.Data.Sqlite")
                      {
-                         factory = System.Data.Sqlite.Core.SqliteFactory.Instance;
+                         factory = Microsoft.Data.Sqlite.SqliteFactory.Instance;
                          SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
-                     }    */  
+                     }     
                     else if (providerName == "MySql.Data")
                         factory = MySql.Data.MySqlClient.MySqlClientFactory.Instance;
                     else

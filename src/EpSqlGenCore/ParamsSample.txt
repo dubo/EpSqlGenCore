@@ -1,5 +1,10 @@
 AllTables.json -aNumRows:Integer:100 -dc -do
+AllTables.sql -aNumRows:Integer:100
 DvdCategory.sql -c:ReportConnStringNPG
 AuthorFilms.json -c:ReportConnStringNPG -a:lastName:String:Davis
-// SQLITE actually  not supported
 Genres.sql  -c:ReportConnStringSqLite
+
+// Sample  values for  Date formats in  Config  
+<add key="DateFormat" value="d.M.yyyy" />
+<add key="DateTimeFormat" value="d.M.yyyy H:mm:ss" />
+ 	 
